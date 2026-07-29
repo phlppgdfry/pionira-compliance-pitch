@@ -389,6 +389,11 @@ services.AddServiceBusProcessor(<span class="c2">"document.signed"</span>, opts 
   </div>
 
   <p>Concreet raakt dit precies de vaardigheden uit de vacature: <b>C# / ASP.NET</b> voor de connector-services, <b>Azure Service Bus</b> als ontkoppelde berichtenlaag, <b>Azure SQL</b> voor de audittrail per melding, en de vermelde <b>.NET Framework → .NET Core-migratie</b> is het natuurlijke moment om dit uit de bestaande monoliet te lichten.</p>
+
+  <div class="finding">
+    <span class="tag">Geen slides — echte code</span>
+    <p style="margin-top:8px">Dit patroon staat ook als werkend .NET-prototype op GitHub: drie connectors, 16 geslaagde xUnit-tests, en een demo die de DIWASS-herstart live simuleert. <a href="https://github.com/phlppgdfry/pionira-compliance-connector-poc" target="_blank" rel="noopener"><code class="mono">github.com/phlppgdfry/pionira-compliance-connector-poc</code> ↗</a></p>
+  </div>
 </section>
 
 <section id="bonus">
@@ -431,6 +436,7 @@ services.AddServiceBusProcessor(<span class="c2">"document.signed"</span>, opts 
   </div>
   <p class="disclaimer">Dit is een ongevraagd, zelfstandig opgesteld technisch voorstel ter voorbereiding van een sollicitatiegesprek bij Pionira NV. Het is geen officieel Pionira-document en bevat geen vertrouwelijke of interne informatie — alle aannames zijn gebaseerd op wat publiek beschikbaar is via pionira.be en de Azure Marketplace-vermelding van eWastra. Architectuur en cijfers zijn een uitgangspunt voor gesprek, geen kant-en-klare implementatie.</p>
   <p class="sources">Bronnen: <a href="https://pionira.be/en/ewastra/" target="_blank" rel="noopener">pionira.be/en/ewastra</a> · <a href="https://pionira.be/en/how-do-you-prepare-for-diwass/" target="_blank" rel="noopener">pionira.be — DIWASS</a> · <a href="https://pionira.be/en/partners/" target="_blank" rel="noopener">pionira.be — partners</a> · <a href="https://pionira.be/en/blog/" target="_blank" rel="noopener">pionira.be/en/blog</a> · <a href="https://marketplace.microsoft.com/en-us/product/saas/pionira1640692278339.e-wastra" target="_blank" rel="noopener">Azure Marketplace — eWastra</a></p>
+  <p class="sources">Werkend prototype: <a href="https://github.com/phlppgdfry/pionira-compliance-connector-poc" target="_blank" rel="noopener">github.com/phlppgdfry/pionira-compliance-connector-poc</a></p>
 </footer>
 
 <script>
