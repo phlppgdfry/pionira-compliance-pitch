@@ -263,20 +263,20 @@ footer { padding: 40px 0 60px; }
 
   <span class="stamp-badge">⬤ DIWASS-overgangsperiode loopt tot <span id="diwass-date" class="mono">01.01.2027</span></span>
 
-  <p>Daarnaast bestaat er al een derde, oudere variant: <b>MATIS</b>, de rapportageverplichting van OVAM in Vlaanderen, die eWastra vandaag al als export ondersteunt. Drie landen, drie regelgevers, drie keer een eigen dossier. Frankrijk, Duitsland en Nederland zullen niet de laatste blijven — de EU-richting is duidelijk digitaal en verplicht.</p>
+  <p>Daarnaast bestaat er al een derde, oudere variant: <b>MATIS</b>, de rapportageverplichting van OVAM in Vlaanderen. Die werkt vandaag nog niet als live API, maar als CSV-export die de gebruiker zelf met één klik indient bij OVAM — eWastra genereert het bestand, de melding zelf blijft een handmatige stap. Drie regelingen, drie manieren van afleveren, drie keer een eigen dossier. Frankrijk, Duitsland en Nederland zullen niet de laatste blijven — de EU-richting is duidelijk digitaal en verplicht, en de kans is groot dat die wél realtime API's verwachten.</p>
 
   <div class="stats">
     <div class="stat">
       <span class="num mono">3</span>
-      <span class="lbl">nationale/EU-meldsystemen die eWastra vandaag al raakt: MATIS (BE), DIWASS (EU), DeCA (ES)</span>
+      <span class="lbl">nationale/EU-meldsystemen die eWastra vandaag al raakt: MATIS-export (BE), DIWASS-API (EU), DeCA-API (ES)</span>
     </div>
     <div class="stat">
       <span class="num mono">40+</span>
       <span class="lbl">bestaande ERP/TMS-integraties — elk een bewijs dat "opnieuw bouwen per partner" nu al de norm is</span>
     </div>
     <div class="stat cleared">
-      <span class="num mono">1×</span>
-      <span class="lbl">gebeurtenis die alles in gang zet: een document wordt getekend. Daar zou de ontkoppeling moeten beginnen.</span>
+      <span class="num mono">1</span>
+      <span class="lbl">gestandaardiseerde stroom van documentgebeurtenissen (aanmaak, ondertekening, ...) waarop elk regime onafhankelijk kan reageren. Daar zou de ontkoppeling moeten beginnen.</span>
     </div>
   </div>
 </section>
@@ -284,9 +284,9 @@ footer { padding: 40px 0 60px; }
 <section id="voorstel">
   <p class="s-label">02 — Het voorstel</p>
   <h2>Een Compliance Connector Framework</h2>
-  <p class="lede">Niet nóg een feature, maar een manier om nieuwe wetgeving een configuratietaak te maken in plaats van een implementatietraject.</p>
+  <p class="lede">Niet nóg een feature, maar een manier om nieuwe wetgeving een kleiner, herhaalbaar traject te maken in plaats van telkens een volledig nieuw implementatieproject.</p>
 
-  <p>Het idee is eenvoudig genoeg om aan iedereen uit te leggen: op het moment dat een chauffeur of transporteur een document tekent, wordt dat één keer centraal gemeld — als een bericht op een soort interne "postbus" (<b>Azure Service Bus</b>). Elk land dat een melding verwacht — Vlaanderen, de EU, Spanje, en morgen misschien Frankrijk — heeft zijn eigen "loket" dat dat bericht oppikt en zelf afhandelt volgens de regels van dat land. Het documentproces zelf verandert niet; alleen de manier waarop nieuwe landen worden aangesloten.</p>
+  <p>Het idee is eenvoudig genoeg om aan iedereen uit te leggen: op belangrijke momenten in het leven van een document — aanmaak, ondertekening, en mogelijk later — wordt dat centraal gemeld, als een bericht op een soort interne "postbus" (<b>Azure Service Bus</b>). Elk regime dat een melding verwacht — Vlaanderen, de EU, Spanje, en morgen misschien Frankrijk — heeft zijn eigen "loket" dat dat bericht oppikt en zelf afhandelt volgens zijn eigen regels. Dat loket bepaalt zelf hóe het aflevert: een directe API-aanroep zoals bij DIWASS, of — zoals bij MATIS vandaag — het klaarzetten van een exportbestand. Het documentproces zelf verandert niet; alleen de manier waarop nieuwe regimes worden aangesloten.</p>
 
   <div class="diagram-shell">
     <svg viewBox="0 0 860 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architectuurdiagram: getekend document stuurt een gebeurtenis naar Azure Service Bus, die door aparte connectors per land wordt opgepikt.">
@@ -315,13 +315,13 @@ footer { padding: 40px 0 60px; }
 
       <rect x="330" y="140" width="200" height="66" rx="6" class="box-navy"></rect>
       <text x="430" y="168" text-anchor="middle" class="lbl-node-inv">Azure Service Bus</text>
-      <text x="430" y="186" text-anchor="middle" class="lbl-tiny" fill="#CFE0F0">topic: document.signed</text>
+      <text x="430" y="186" text-anchor="middle" class="lbl-tiny" fill="#CFE0F0">topic: document.* (aanmaak, ondertekening, ...)</text>
 
       <path class="conn" d="M330,90 Q330,90 430,140"></path>
 
       <rect x="620" y="20" width="220" height="58" rx="6" class="box"></rect>
       <text x="730" y="45" text-anchor="middle" class="lbl-node">MATIS · Vlaanderen (OVAM)</text>
-      <text x="730" y="62" text-anchor="middle" class="lbl-tiny">bestaat al vandaag</text>
+      <text x="730" y="62" text-anchor="middle" class="lbl-tiny">vandaag: CSV-export, geen live API</text>
       <path class="conn" d="M530,150 Q590,90 620,49"></path>
 
       <rect x="620" y="100" width="220" height="58" rx="6" class="box">
@@ -354,7 +354,7 @@ footer { padding: 40px 0 60px; }
 
   <div class="finding">
     <span class="tag">Waarom dit nu telt</span>
-    <p style="margin-top:8px">Op 21 mei 2026 ging DIWASS EU-breed live — tientallen landen die tegelijk beginnen registreren bij één centraal systeem. Zulke lanceringen zijn zelden storingsvrij op dag één. Een connector met eigen retry- en foutafhandeling zorgt ervoor dat een instabiele overheids-API nooit een transport tegenhoudt — het document blijft gewoon geldig, de melding volgt automatisch zodra het systeem weer bereikbaar is.</p>
+    <p style="margin-top:8px">Op 21 mei 2026 ging DIWASS EU-breed live — tientallen landen die tegelijk beginnen registreren bij één centraal systeem. Zulke lanceringen zijn zelden storingsvrij op dag één. Een connector met eigen retry- en foutafhandeling zorgt dat een instabiele overheids-API geen andere regimes blokkeert. Waar wetgeving vereist dat een melding vóór vertrek rond is, is dat geen vrijblijvende keuze — dan bepaalt het regime zelf of het een harde blokkade is, een herprobeerbare wachtrij, of een taak voor een medewerker. Betrouwbaarheid mag de wet niet omzeilen, enkel de manier waarop met een storing wordt omgegaan wordt beheersbaar.</p>
   </div>
 </section>
 
@@ -367,28 +367,31 @@ footer { padding: 40px 0 60px; }
     <div class="file">ComplianceConnectors / IComplianceReporter.cs</div>
     <pre><span class="c1">public interface</span> IComplianceReporter
 {
-    <span class="c4">// elk land implementeert dit contract eenmalig</span>
+    <span class="c4">// elk regime implementeert dit contract eenmalig</span>
     <span class="c1">string</span> RegimeCode { get; } <span class="c4">// "BE-MATIS" · "EU-DIWASS" · "ES-DECA"</span>
     <span class="c1">bool</span> AppliesTo(SignedDocument doc);
-    <span class="c1">Task</span> ReportAsync(SignedDocument doc, CancellationToken ct);
+    <span class="c1">Task</span> ReportAsync(SignedDocument doc, CancellationToken ct); <span class="c4">// API-call óf export-bestand</span>
 }
 
-<span class="c4">// registratie: nieuw land = nieuwe regel, geen nieuw project</span>
-<span class="c1">public class</span> DiwassReporter : IComplianceReporter { <span class="c3">/* ... */</span> }
-<span class="c1">public class</span> DecaReporter    : IComplianceReporter { <span class="c3">/* ... */</span> }
-<span class="c1">public class</span> MatisReporter   : IComplianceReporter { <span class="c3">/* ... */</span> }
+<span class="c4">// nieuw regime = nieuwe klasse, bestaande connectors blijven ongewijzigd</span>
+<span class="c1">public class</span> DiwassReporter : IComplianceReporter { <span class="c3">/* live API-aanroep */</span> }
+<span class="c1">public class</span> DecaReporter    : IComplianceReporter { <span class="c3">/* live API-aanroep */</span> }
+<span class="c1">public class</span> MatisReporter   : IComplianceReporter { <span class="c3">/* genereert CSV-export, zoals vandaag */</span> }
 
-<span class="c4">// Service Bus subscriber: elke connector krijgt eigen queue,</span>
-<span class="c4">// eigen retry-policy en dead-letter — één trage overheids-API</span>
-<span class="c4">// kan nooit de andere landen of het documentproces blokkeren.</span>
-services.AddServiceBusProcessor(<span class="c2">"document.signed"</span>, opts =>
+<span class="c4">// MaxDeliveryCount hoort bij de subscription zelf, niet bij de processor —</span>
+<span class="c4">// dat stel je in via de admin-client, één keer per regime:</span>
+<span class="c1">await</span> adminClient.CreateSubscriptionAsync(<span class="c1">new</span> CreateSubscriptionOptions(
+    <span class="c2">"document.signed"</span>, <span class="c2">"eu-diwass"</span>) { MaxDeliveryCount = 8 });
+
+<span class="c4">// elke connector krijgt zo zijn eigen subscription + retry-gedrag —</span>
+<span class="c4">// één trage overheids-API kan nooit een ander regime blokkeren.</span>
+services.AddServiceBusProcessor(<span class="c2">"document.signed"</span>, <span class="c2">"eu-diwass"</span>, opts =>
 {
-    opts.MaxDeliveryCount = 8;
     opts.MaxAutoLockRenewalDuration = TimeSpan.FromMinutes(10);
 });</pre>
   </div>
 
-  <p>Concreet raakt dit precies de vaardigheden uit de vacature: <b>C# / ASP.NET</b> voor de connector-services, <b>Azure Service Bus</b> als ontkoppelde berichtenlaag, <b>Azure SQL</b> voor de audittrail per melding, en de vermelde <b>.NET Framework → .NET Core-migratie</b> is het natuurlijke moment om dit uit de bestaande monoliet te lichten.</p>
+  <p>Concreet raakt dit precies de vaardigheden uit de vacature: <b>C# / ASP.NET</b> voor de connector-services, <b>Azure Service Bus</b> als ontkoppelde berichtenlaag, <b>Azure SQL</b> voor de audittrail per melding. En áls er ergens nog .NET Framework-code migreert naar .NET Core — de vacature noemt dat als pluspunt, zonder dat ik weet hoe het huidige platform eruitziet — dan is dat een goed moment om nieuwe compliance-logica meteen als apart, onafhankelijk onderdeel te introduceren in plaats van ze aan de bestaande code toe te voegen.</p>
 
   <div class="finding">
     <span class="tag">Geen slides — echte code</span>
@@ -399,7 +402,7 @@ services.AddServiceBusProcessor(<span class="c2">"document.signed"</span>, opts 
 <section id="bonus">
   <p class="s-label">04 — Een extra observatie</p>
   <h2>eWastra staat op de Azure Marketplace</h2>
-  <p>eWastra is te vinden als "transactable SaaS"-vermelding op de Microsoft Azure Marketplace. Dat betekent dat er ergens al gewerkt wordt met Microsofts <b>SaaS Fulfillment API</b> en <b>metered billing</b> — voor het automatisch aanmaken van klantaccounts en het afhandelen van facturatie via Azure AD-tenants. Dat is een vrij specifieke, weinig voorkomende Azure-vaardigheid, en precies het soort "gedistribueerde systemen integreren" waar de vacature naar vraagt. Een klein maar concreet signaal dat ik verder keek dan de functietitel alleen.</p>
+  <p>eWastra is te vinden als "transactable SaaS"-vermelding op de Microsoft Azure Marketplace. Zo'n vermelding impliceert typisch integratie met Microsofts <b>SaaS Fulfillment API</b> en een Microsoft Entra-appregistratie voor het provisioneren van klantaccounts; of daarbij ook <b>metered billing</b> gebruikt wordt, is van buitenaf niet met zekerheid te zeggen. Wat wel duidelijk is: dit is een vrij specifieke, weinig voorkomende Azure-vaardigheid, en precies het soort "gedistribueerde systemen integreren" waar de vacature naar vraagt. Een klein maar concreet signaal dat ik verder keek dan de functietitel alleen — en een goede vraag om in een gesprek te toetsen.</p>
 </section>
 
 <section id="roadmap">
@@ -420,7 +423,7 @@ services.AddServiceBusProcessor(<span class="c2">"document.signed"</span>, opts 
     </div>
     <div class="phase">
       <span class="tag mono">FASE 3</span>
-      <div><h3>Zelfbedieningsonboarding</h3><p>Het volgende land — of de volgende ERP/TMS-partner uit de lijst van 40+ — aansluiten wordt een configuratietaak, niet langer een apart project.</p></div>
+      <div><h3>Herbruikbaar traject, geen blanco project</h3><p>Het volgende regime aansluiten blijft maatwerk — een nieuwe API, eigen certificering, eigen datamapping — maar draait op dezelfde dispatcher, retry-infrastructuur en audittrail. Een kleiner, voorspelbaarder traject in plaats van telkens een project vanaf nul.</p></div>
     </div>
   </div>
 </section>
